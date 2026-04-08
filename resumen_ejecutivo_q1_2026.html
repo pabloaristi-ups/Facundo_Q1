@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retail Media — Resumen Ejecutivo Q1 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root {
+    --red: #E8002D;
+    --dark: #0F1624;
+    --dark2: #1A2540;
+    --white: #FFFFFF;
+    --gray: #6B7280;
+    --gray-light: #F4F5F7;
+    --green: #00C67A;
+    --yellow: #F59E0B;
+    --blue: #3B82F6;
+    --google-blue: #4285F4;
+    --google-red: #EA4335;
+    --google-yellow: #FBBC05;
+    --google-green: #34A853;
+    --border: #E2E8F0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--gray-light);
+    color: var(--dark);
+    line-height: 1.5;
+  }
+
+  /* ─── HERO ──────────────────────────────────────── */
+  .hero {
+    background: linear-gradient(135deg, var(--dark) 0%, #1A2F5E 60%, #0F1624 100%);
+    color: white;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(232,0,45,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: 30%;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-bar {
+    background: var(--red);
+    height: 5px;
+  }
+  .hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 52px 40px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-left {}
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 2px;
+    background: var(--red);
+  }
+  .hero-title {
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+  }
+  .hero-title span { color: var(--red); }
+  .hero-subtitle {
+    font-size: 16px;
+    color: #94A3B8;
+    font-weight: 400;
+    margin-bottom: 30px;
+  }
+  .hero-chips {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.07);
+    color: #CBD5E1;
+  }
+  .chip.hot { border-color: rgba(232,0,45,0.5); background: rgba(232,0,45,0.12); color: #FCA5A5; }
+  .hero-right {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .hero-kpi-label {
+    font-size: 11px;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 4px;
+  }
+  .hero-kpi-value {
+    font-size: 64px;
+    font-weight: 900;
+    line-height: 1;
+    color: #FCD34D;
+    letter-spacing: -3px;
+  }
+  .hero-kpi-sub {
+    font-size: 13px;
+    color: #64748B;
+    margin-top: 4px;
+  }
+  .hero-kpi-vs {
+    font-size: 14px;
+    color: #94A3B8;
+    margin-top: 2px;
+  }
+  .hero-kpi-vs strong { color: #60A5FA; }
+
+  /* ─── LAYOUT ─────────────────────────────────────── */
+  .page { max-width: 1200px; margin: 0 auto; padding: 40px 40px 60px; }
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin: 48px 0 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .section-label .dot {
+    width: 8px; height: 8px;
+    background: var(--red);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ─── RATIO SPOTLIGHT ────────────────────────────── */
+  .ratio-spotlight {
+    background: linear-gradient(135deg, var(--dark2) 0%, #0F1E3D 100%);
+    border-radius: 20px;
+    padding: 36px 40px;
+    color: white;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    gap: 0;
+    align-items: center;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  .ratio-spotlight::before {
+    content: 'RATIO GMV / RM';
+    position: absolute;
+    top: 18px; right: 28px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.12);
+  }
+  .ratio-col { text-align: center; padding: 0 20px; }
+  .ratio-col .sub { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #64748B; margin-bottom: 8px; }
+  .ratio-col .val { font-size: 52px; font-weight: 900; line-height: 1; letter-spacing: -2px; }
+  .ratio-col .val.real { color: #FCD34D; }
+  .ratio-col .val.ppto { color: #60A5FA; }
+  .ratio-col .formula { font-size: 11px; color: #475569; margin-top: 6px; }
+  .ratio-divider { width: 1px; background: rgba(255,255,255,0.07); height: 80px; }
+  .ratio-trend {
+    padding: 0 20px;
+  }
+  .ratio-trend-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 13px;
+  }
+  .ratio-trend-item:last-child { border-bottom: none; }
+  .ratio-trend-item .month { color: #94A3B8; font-weight: 500; width: 60px; }
+  .ratio-trend-item .vals { display: flex; gap: 12px; align-items: center; }
+  .ratio-trend-item .rv { color: #FCD34D; font-weight: 700; font-size: 14px; }
+  .ratio-trend-item .pv { color: #60A5FA; font-size: 12px; }
+  .ratio-trend-item .delta { font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
+  .delta.pos { background: rgba(0,198,122,0.15); color: #34D399; }
+  .delta.neg { background: rgba(232,0,45,0.15); color: #F87171; }
+  .ratio-arrow-ctn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 0 10px;
+  }
+  .ratio-arrow { font-size: 28px; }
+  .ratio-arrow-label { font-size: 10px; color: #475569; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* ─── KPI GRID ───────────────────────────────────── */
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .kpi-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px 22px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--border);
+    border-radius: 0 0 16px 16px;
+  }
+  .kpi-card.highlight::after { background: var(--red); }
+  .kpi-card.ok::after { background: var(--green); }
+  .kpi-card.warn::after { background: var(--yellow); }
+  .kpi-card.info::after { background: var(--blue); }
+  .kpi-card .k-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gray);
+    margin-bottom: 10px;
+  }
+  .kpi-card .k-val {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--dark);
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+  .kpi-card .k-sub {
+    font-size: 12px;
+    color: var(--gray);
+  }
+  .kpi-card .k-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 6px;
+  }
+  .k-badge.neg { background: #FEE2E2; color: #DC2626; }
+  .k-badge.pos { background: #D1FAE5; color: #059669; }
+  .k-badge.neutral { background: #DBEAFE; color: #2563EB; }
+
+  /* ─── CHARTS ─────────────────────────────────────── */
+  .chart-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 18px; }
+  .chart-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .chart-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .chart-card .c-header { margin-bottom: 20px; }
+  .chart-card .c-title { font-size: 14px; font-weight: 700; color: var(--dark); }
+  .chart-card .c-sub { font-size: 12px; color: var(--gray); margin-top: 2px; }
+  .chart-wrap { position: relative; height: 240px; }
+  .chart-wrap.tall { height: 300px; }
+
+  /* ─── CAMPAIGN SUMMARY ───────────────────────────── */
+  .camp-row { display: grid; grid-template-columns: 2fr 3fr; gap: 18px; align-items: start; }
+  .camp-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .camp-stat {
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    text-align: center;
+  }
+  .camp-stat .cs-val { font-size: 36px; font-weight: 800; color: var(--dark); line-height: 1; margin-bottom: 6px; letter-spacing: -1px; }
+  .camp-stat .cs-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--gray); }
+  .camp-stat .cs-sub { font-size: 12px; color: var(--gray); margin-top: 4px; }
+
+  /* ─── TEAM ───────────────────────────────────────── */
+  .team-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .team-card {
+    background: white;
+    border-radius: 14px;
+    padding: 20px 16px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    text-align: center;
+  }
+  .team-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 16px;
+    margin: 0 auto 10px;
+    color: white;
+  }
+  .team-name { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
+  .team-rate { font-size: 28px; font-weight: 900; letter-spacing: -1px; line-height: 1; margin-bottom: 6px; }
+  .team-rate.high { color: var(--green); }
+  .team-rate.mid { color: var(--yellow); }
+  .team-rate.low { color: var(--red); }
+  .team-progress { height: 5px; background: #E5E7EB; border-radius: 3px; margin-bottom: 10px; overflow: hidden; }
+  .team-progress-fill { height: 100%; border-radius: 3px; transition: width 0.8s; }
+  .team-progress-fill.high { background: var(--green); }
+  .team-progress-fill.mid { background: var(--yellow); }
+  .team-progress-fill.low { background: var(--red); }
+  .team-stat { font-size: 11px; color: var(--gray); margin: 3px 0; display: flex; justify-content: space-between; }
+  .team-stat strong { color: var(--dark); }
+
+  /* ─── GOOGLE CASE STUDY ──────────────────────────── */
+  .case-study-wrapper {
+    background: linear-gradient(135deg, #0A0F1E 0%, #0F1624 100%);
+    border-radius: 20px;
+    padding: 2px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  }
+  .case-study {
+    background: linear-gradient(135deg, #0F1624 0%, #131D35 100%);
+    border-radius: 18px;
+    overflow: hidden;
+  }
+  .case-header {
+    padding: 36px 40px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .case-header-left {}
+  .case-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(66,133,244,0.12);
+    color: #93C5FD;
+    border: 1px solid rgba(66,133,244,0.25);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .case-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: white;
+    line-height: 1.2;
+    max-width: 500px;
+    letter-spacing: -0.5px;
+  }
+  .case-title span { color: #FCD34D; }
+  .google-logo {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    flex-shrink: 0;
+  }
+  .g-G { color: #4285F4; }
+  .g-o1 { color: #EA4335; }
+  .g-o2 { color: #FBBC05; }
+  .g-g { color: #4285F4; }
+  .g-l { color: #34A853; }
+  .g-e { color: #EA4335; }
+  .sa360-badge {
+    background: rgba(66,133,244,0.1);
+    border: 1px solid rgba(66,133,244,0.2);
+    color: #93C5FD;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 8px;
+    display: inline-block;
+  }
+  .case-body {
+    padding: 32px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .case-metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .case-metric {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 20px 18px;
+    text-align: center;
+  }
+  .case-metric .cm-val {
+    font-size: 46px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -2px;
+    color: #4285F4;
+    margin-bottom: 6px;
+  }
+  .case-metric:nth-child(2) .cm-val { color: #EA4335; }
+  .case-metric:nth-child(3) .cm-val { color: #FBBC05; }
+  .case-metric:nth-child(4) .cm-val { color: #34A853; }
+  .case-metric .cm-label { font-size: 12px; color: #64748B; font-weight: 500; line-height: 1.3; }
+  .case-content { color: white; }
+  .case-section-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #64748B;
+    margin-bottom: 12px;
+    margin-top: 24px;
+  }
+  .case-section-title:first-child { margin-top: 0; }
+  .case-text { font-size: 13px; color: #94A3B8; line-height: 1.7; }
+  .case-quote {
+    background: rgba(255,255,255,0.04);
+    border-left: 3px solid #4285F4;
+    border-radius: 0 10px 10px 0;
+    padding: 16px 18px;
+    margin-top: 20px;
+  }
+  .case-quote-text { font-size: 14px; color: #E2E8F0; line-height: 1.6; font-style: italic; }
+  .case-quote-author { font-size: 12px; color: #64748B; margin-top: 8px; }
+  .case-quote-author strong { color: #93C5FD; }
+  .case-highlight {
+    background: rgba(252,211,77,0.06);
+    border: 1px solid rgba(252,211,77,0.15);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-top: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .case-highlight-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .case-highlight-text { font-size: 13px; color: #FCD34D; line-height: 1.5; }
+  .case-highlight-text strong { color: #FBBF24; }
+
+  /* ─── FOOTER ─────────────────────────────────────── */
+  .footer {
+    background: var(--dark);
+    color: #475569;
+    padding: 24px 40px;
+    text-align: center;
+    font-size: 12px;
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 100%;
+  }
+  .footer strong { color: #64748B; }
+  .footer-brand { display: flex; align-items: center; gap: 8px; }
+  .footer-dot { width: 8px; height: 8px; background: var(--red); border-radius: 50%; }
+
+  /* ─── DIVIDER ─────────────────────────────────────── */
+  .section-divider { height: 1px; background: var(--border); margin: 8px 0; }
+
+  /* ─── RESPONSIVE ──────────────────────────────────── */
+  @media (max-width: 900px) {
+    .hero-content { flex-direction: column; gap: 32px; align-items: flex-start; }
+    .hero-right { text-align: left; }
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .chart-grid, .chart-grid-2, .camp-row { grid-template-columns: 1fr; }
+    .ratio-spotlight { grid-template-columns: 1fr; }
+    .ratio-divider { display: none; }
+    .team-grid { grid-template-columns: repeat(3, 1fr); }
+    .case-body { grid-template-columns: 1fr; }
+  }
+
+  /* ─── PRINT ───────────────────────────────────────── */
+  @media print {
+    body { background: white; }
+    .hero { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .ratio-spotlight, .case-study { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-bar"></div>
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Retail Media · Fravega S.A.</div>
+      <h1 class="hero-title">
+        Resumen Ejecutivo<br>
+        <span>Q1 2026</span>
+      </h1>
+      <p class="hero-subtitle">Enero · Febrero · Marzo &nbsp;—&nbsp; Cierre de Trimestre</p>
+      <div class="hero-chips">
+        <div class="chip">$379M RM Facturado</div>
+        <div class="chip">$289.9B GMV</div>
+        <div class="chip">161 Campañas</div>
+        <div class="chip hot">Caso Éxito Google</div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-kpi-label">Ratio Real Q1</div>
+      <div class="hero-kpi-value">0,13%</div>
+      <div class="hero-kpi-sub">RM / GMV acumulado</div>
+      <div class="hero-kpi-vs">vs PPTO <strong>0,13%</strong> &nbsp;—&nbsp; Q1 cerrado</div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- ══════════════════════════════════════════════
+       RATIO SPOTLIGHT
+  ══════════════════════════════════════════════ -->
+  <div class="section-label">
+    <div class="dot"></div>
+    Métrica Principal — Ratio GMV / RM
+  </div>
+
+  <div class="ratio-spotlight">
+    <div class="ratio-col">
+      <div class="sub">Ratio Real YTD</div>
+      <div class="val real">0,13%</div>
+      <div class="formula">RM $379M / GMV $289.9B</div>
+    </div>
+    <div class="ratio-divider"></div>
+    <div class="ratio-col">
+      <div class="sub">Ratio PPTO YTD</div>
+      <div class="val ppto">0,13%</div>
+      <div class="formula">Objetivo presupuestado</div>
+    </div>
+    <div class="ratio-divider"></div>
+    <div class="ratio-trend">
+      <div class="ratio-trend-item">
+        <span class="month">Enero</span>
+        <div class="vals">
+          <span class="rv">0,09%</span>
+          <span class="pv">vs 0,15% ppto</span>
+          <span class="delta neg">▼ -40%</span>
+        </div>
+      </div>
+      <div class="ratio-trend-item">
+        <span class="month">Febrero</span>
+        <div class="vals">
+          <span class="rv">0,12%</span>
+          <span class="pv">vs 0,09% ppto</span>
+          <span class="delta pos">▲ +33%</span>
+        </div>
+      </div>
+      <div class="ratio-trend-item">
+        <span class="month">Marzo</span>
+        <div class="vals">
+          <span class="rv">0,17%</span>
+          <span class="pv">vs 0,15% ppto</span>
+          <span class="delta pos">▲ +13%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       KPI CARDS
+  ══════════════════════════════════════════════ -->
+  <div class="section-label">
+    <div class="dot"></div>
+    KPIs Estratégicos Q1 2026
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi-card highlight">
+      <div class="k-label">RM Real Q1</div>
+      <div class="k-val">$379M</div>
+      <div class="k-sub">Facturación Retail Media</div>
+      <div class="k-badge neg">−$92M vs PPTO</div>
+    </div>
+    <div class="kpi-card warn">
+      <div class="k-label">RM Presupuesto Q1</div>
+      <div class="k-val">$471M</div>
+      <div class="k-sub">Objetivo anual prorrateado</div>
+      <div class="k-badge neutral">Forecast $424M</div>
+    </div>
+    <div class="kpi-card ok">
+      <div class="k-label">GMV Real Q1</div>
+      <div class="k-val">$289.9B</div>
+      <div class="k-sub">1P + Marketplace</div>
+      <div class="k-badge neg">−19% vs PPTO</div>
+    </div>
+    <div class="kpi-card info">
+      <div class="k-label">Inversión Aprobada Q1</div>
+      <div class="k-val">$384M</div>
+      <div class="k-sub">84 campañas aprobadas</div>
+      <div class="k-badge neutral">52% tasa aprobación</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       CHARTS
+  ══════════════════════════════════════════════ -->
+  <div class="section-label">
+    <div class="dot"></div>
+    Evolución Mensual Q1
+  </div>
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <div class="c-header">
+        <div class="c-title">Ratio GMV/RM — Evolución Q1</div>
+        <div class="c-sub">Real 2026 vs PPTO 2026 vs Real 2025</div>
+      </div>
+      <div class="chart-wrap tall">
+        <canvas id="ratioChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="c-header">
+        <div class="c-title">RM Mensual</div>
+        <div class="c-sub">Real vs PPTO vs Forecast (ARS)</div>
+      </div>
+      <div class="chart-wrap tall">
+        <canvas id="rmChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-grid-2" style="margin-top:18px;">
+    <div class="chart-card">
+      <div class="c-header">
+        <div class="c-title">GMV Mensual</div>
+        <div class="c-sub">Real vs PPTO (en millones ARS)</div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="gmvChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="c-header">
+        <div class="c-title">Campañas por Estado</div>
+        <div class="c-sub">Distribución inversión Q1</div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="campChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       CAMPAIGNS SUMMARY
+  ══════════════════════════════════════════════ -->
+  <div class="section-label">
+    <div class="dot"></div>
+    Pipeline Comercial
+  </div>
+
+  <div class="camp-row">
+    <div class="camp-stats">
+      <div class="camp-stat">
+        <div class="cs-val">161</div>
+        <div class="cs-label">Campañas Totales</div>
+        <div class="cs-sub">2026 acumulado Q1</div>
+      </div>
+      <div class="camp-stat">
+        <div class="cs-val">84</div>
+        <div class="cs-label">Aprobadas</div>
+        <div class="cs-sub">52% tasa conversión</div>
+      </div>
+      <div class="camp-stat">
+        <div class="cs-val">$384M</div>
+        <div class="cs-label">Inversión Aprobada</div>
+        <div class="cs-sub">Suma Q1 2026</div>
+      </div>
+      <div class="camp-stat">
+        <div class="cs-val" style="color:var(--red)">69</div>
+        <div class="cs-label">Rechazadas</div>
+        <div class="cs-sub">Oportunidad a recuperar</div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="c-header">
+        <div class="c-title">Performance del Equipo Comercial — Q1</div>
+        <div class="c-sub">Inversión aprobada por responsable</div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="teamChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       TEAM CARDS
+  ══════════════════════════════════════════════ -->
+  <div class="section-label">
+    <div class="dot"></div>
+    Equipo Comercial
+  </div>
+
+  <div class="team-grid">
+    <!-- Joan -->
+    <div class="team-card">
+      <div class="team-avatar" style="background:#6366F1;">JO</div>
+      <div class="team-name">Joan</div>
+      <div class="team-rate mid">63%</div>
+      <div class="team-progress"><div class="team-progress-fill mid" style="width:63%"></div></div>
+      <div class="team-stat"><span>Aprobadas</span><strong>19 / 30</strong></div>
+      <div class="team-stat"><span>Inversión</span><strong>$132M</strong></div>
+    </div>
+    <!-- Luz -->
+    <div class="team-card">
+      <div class="team-avatar" style="background:#0891B2;">LZ</div>
+      <div class="team-name">Luz</div>
+      <div class="team-rate high">76%</div>
+      <div class="team-progress"><div class="team-progress-fill high" style="width:76%"></div></div>
+      <div class="team-stat"><span>Aprobadas</span><strong>22 / 29</strong></div>
+      <div class="team-stat"><span>Inversión</span><strong>$108M</strong></div>
+    </div>
+    <!-- Juan -->
+    <div class="team-card">
+      <div class="team-avatar" style="background:#0F766E;">JN</div>
+      <div class="team-name">Juan</div>
+      <div class="team-rate mid">59%</div>
+      <div class="team-progress"><div class="team-progress-fill mid" style="width:59%"></div></div>
+      <div class="team-stat"><span>Aprobadas</span><strong>33 / 56</strong></div>
+      <div class="team-stat"><span>Inversión</span><strong>$97M</strong></div>
+    </div>
+    <!-- Ami -->
+    <div class="team-card">
+      <div class="team-avatar" style="background:#B45309;">AM</div>
+      <div class="team-name">Ami</div>
+      <div class="team-rate low">23%</div>
+      <div class="team-progress"><div class="team-progress-fill low" style="width:23%"></div></div>
+      <div class="team-stat"><span>Aprobadas</span><strong>8 / 35</strong></div>
+      <div class="team-stat"><span>Inversión</span><strong>$48M</strong></div>
+    </div>
+    <!-- Facu -->
+    <div class="team-card">
+      <div class="team-avatar" style="background:#7C3AED;">FA</div>
+      <div class="team-name">Facu</div>
+      <div class="team-rate low">18%</div>
+      <div class="team-progress"><div class="team-progress-fill low" style="width:18%"></div></div>
+      <div class="team-stat"><span>Aprobadas</span><strong>2 / 11</strong></div>
+      <div class="team-stat"><span>Inversión</span><strong>$5M</strong></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       GOOGLE CASE STUDY
+  ══════════════════════════════════════════════ -->
+  <div class="section-label">
+    <div class="dot"></div>
+    Caso de Éxito — Google Search Ads 360
+  </div>
+
+  <div class="case-study-wrapper">
+    <div class="case-study">
+
+      <!-- Header -->
+      <div class="case-header">
+        <div class="case-header-left">
+          <div class="case-tag">✦ Case Study · LATAM Argentina</div>
+          <h2 class="case-title">
+            Frávega & Samsung<br>
+            Drive Incremental Growth<br>
+            with <span>SA360 Commerce Media</span>
+          </h2>
+        </div>
+        <div style="text-align:right;">
+          <div class="google-logo">
+            <span class="g-G">G</span><span class="g-o1">o</span><span class="g-o2">o</span><span class="g-g">g</span><span class="g-l">l</span><span class="g-e">e</span>
+          </div>
+          <div class="sa360-badge">Search Ads 360</div>
+        </div>
+      </div>
+
+      <!-- Body -->
+      <div class="case-body">
+
+        <!-- Metrics left -->
+        <div>
+          <div class="case-metrics-grid">
+            <div class="case-metric">
+              <div class="cm-val">9.4x</div>
+              <div class="cm-label">ROAS<br>Samsung S26 Ultra</div>
+            </div>
+            <div class="case-metric">
+              <div class="cm-val">39</div>
+              <div class="cm-label">Ventas directas<br>S26 Ultra</div>
+            </div>
+            <div class="case-metric">
+              <div class="cm-val">12.8x</div>
+              <div class="cm-label">ROAS total<br>de la cuenta</div>
+            </div>
+            <div class="case-metric">
+              <div class="cm-val">78</div>
+              <div class="cm-label">Ventas totales<br>de la cuenta</div>
+            </div>
+          </div>
+
+          <div class="case-highlight" style="margin-top:20px;">
+            <div class="case-highlight-icon">⚡</div>
+            <div class="case-highlight-text">
+              <strong>6% del revenue total</strong> de e-commerce de Frávega generado en solo 3 semanas con esta campaña de lanzamiento.
+            </div>
+          </div>
+        </div>
+
+        <!-- Content right -->
+        <div class="case-content">
+          <div class="case-section-title">El Desafío</div>
+          <div class="case-text">
+            Samsung necesitaba promover el lanzamiento estratégico del S26 Ultra en la plataforma de e-commerce de Frávega, garantizando que la inversión generara ventas medibles para ese producto específico y no se diluyera en el presupuesto general de marketing.
+          </div>
+
+          <div class="case-section-title">El Enfoque</div>
+          <div class="case-text">
+            Frávega utilizó SA360 Commerce Media para que Samsung fondee directamente una campaña Performance Max dedicada al S26 Ultra. Se creó un canal promocional diferenciado y financiado por la marca, con toda la optimización y el reporting orientados exclusivamente a ventas del producto objetivo.
+          </div>
+
+          <div class="case-section-title">Los Resultados</div>
+          <div class="case-text">
+            La campaña generó 39 conversiones directas del S26 Ultra en solo 3 semanas, representando el 6% del total del revenue e-commerce del período. Esto validó un nuevo modelo de negocio escalable para Frávega: retail media con financiamiento de marcas, performance medible y apertura para replicar el modelo con múltiples socios.
+          </div>
+
+          <div class="case-quote">
+            <div class="case-quote-text">
+              "By combining brand budgets, Frávega's first-party audiences and Google's machine learning, SA360 Commerce Media drives incremental sales for every stakeholder. This is retail's natural evolution toward a true media model."
+            </div>
+            <div class="case-quote-author">— <strong>Micaela García</strong>, Retail Media Project Manager, Frávega</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<!-- ══════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════ -->
+<div class="footer">
+  <div class="footer-brand">
+    <div class="footer-dot"></div>
+    <strong>FRÁVEGA</strong> &nbsp;Retail Media
+  </div>
+  <div>Resumen Ejecutivo Q1 2026 &nbsp;·&nbsp; Enero – Marzo · Preparado por Retail Media</div>
+  <div>Abril 2026</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     CHARTS JS
+══════════════════════════════════════════════ -->
+<script>
+Chart.defaults.font.family = "'Segoe UI', system-ui, sans-serif";
+Chart.defaults.color = '#6B7280';
+
+const months = ['Enero', 'Febrero', 'Marzo'];
+
+// Palettes
+const RED = '#E8002D';
+const BLUE = '#3B82F6';
+const GREEN = '#00C67A';
+const YELLOW = '#F59E0B';
+const GRAY = '#94A3B8';
+
+// ── RATIO CHART ─────────────────────────────────────
+new Chart(document.getElementById('ratioChart'), {
+  type: 'line',
+  data: {
+    labels: months,
+    datasets: [
+      {
+        label: 'Real 2026',
+        data: [0.09, 0.12, 0.17],
+        borderColor: '#FCD34D',
+        backgroundColor: 'rgba(252,211,77,0.1)',
+        borderWidth: 3,
+        pointRadius: 6,
+        pointBackgroundColor: '#FCD34D',
+        tension: 0.4,
+        fill: true,
+      },
+      {
+        label: 'PPTO 2026',
+        data: [0.15, 0.09, 0.15],
+        borderColor: '#60A5FA',
+        backgroundColor: 'rgba(96,165,250,0.05)',
+        borderWidth: 2,
+        borderDash: [6, 3],
+        pointRadius: 5,
+        pointBackgroundColor: '#60A5FA',
+        tension: 0.4,
+        fill: false,
+      },
+      {
+        label: 'Real 2025',
+        data: [0.08, 0.10, 0.11],
+        borderColor: '#475569',
+        backgroundColor: 'transparent',
+        borderWidth: 1.5,
+        borderDash: [3, 3],
+        pointRadius: 4,
+        pointBackgroundColor: '#475569',
+        tension: 0.4,
+        fill: false,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top', labels: { boxWidth: 12, padding: 16, font: { size: 12 } } },
+      tooltip: {
+        callbacks: {
+          label: ctx => ` ${ctx.dataset.label}: ${ctx.raw.toFixed(2)}%`
+        }
+      }
+    },
+    scales: {
+      y: {
+        grid: { color: 'rgba(0,0,0,0.04)' },
+        ticks: {
+          callback: v => v.toFixed(2) + '%',
+          font: { size: 11 }
+        }
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// ── RM CHART ─────────────────────────────────────────
+new Chart(document.getElementById('rmChart'), {
+  type: 'bar',
+  data: {
+    labels: months,
+    datasets: [
+      {
+        label: 'Real',
+        data: [96, 91, 192],
+        backgroundColor: RED,
+        borderRadius: 6,
+        borderSkipped: false,
+      },
+      {
+        label: 'PPTO',
+        data: [155, 89, 227],
+        backgroundColor: 'rgba(96,165,250,0.3)',
+        borderColor: '#60A5FA',
+        borderWidth: 2,
+        borderRadius: 6,
+        borderSkipped: false,
+      },
+      {
+        label: 'Forecast',
+        data: [120, 85, 219],
+        backgroundColor: 'rgba(0,198,122,0.2)',
+        borderColor: GREEN,
+        borderWidth: 1.5,
+        borderRadius: 6,
+        borderSkipped: false,
+        borderDash: [4, 2],
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top', labels: { boxWidth: 12, padding: 14, font: { size: 11 } } },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: $${ctx.raw}M` } }
+    },
+    scales: {
+      y: {
+        grid: { color: 'rgba(0,0,0,0.04)' },
+        ticks: { callback: v => '$' + v + 'M', font: { size: 11 } }
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// ── GMV CHART ─────────────────────────────────────────
+new Chart(document.getElementById('gmvChart'), {
+  type: 'line',
+  data: {
+    labels: months,
+    datasets: [
+      {
+        label: 'GMV Real',
+        data: [86.5, 84.2, 119.2],
+        borderColor: GREEN,
+        backgroundColor: 'rgba(0,198,122,0.08)',
+        borderWidth: 3,
+        pointRadius: 6,
+        pointBackgroundColor: GREEN,
+        tension: 0.4,
+        fill: true,
+      },
+      {
+        label: 'GMV PPTO',
+        data: [105.0, 98.0, 153.2],
+        borderColor: '#60A5FA',
+        backgroundColor: 'transparent',
+        borderWidth: 2,
+        borderDash: [6, 3],
+        pointRadius: 5,
+        pointBackgroundColor: '#60A5FA',
+        tension: 0.4,
+        fill: false,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top', labels: { boxWidth: 12, padding: 14, font: { size: 11 } } },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: $${ctx.raw}B` } }
+    },
+    scales: {
+      y: {
+        grid: { color: 'rgba(0,0,0,0.04)' },
+        ticks: { callback: v => '$' + v + 'B', font: { size: 11 } }
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// ── CAMPAIGN DONUT ────────────────────────────────────
+new Chart(document.getElementById('campChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Aprobadas', 'Rechazadas', 'En Negociación'],
+    datasets: [{
+      data: [384, 69, 31],
+      backgroundColor: [GREEN, RED, YELLOW],
+      borderWidth: 0,
+      hoverOffset: 8,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '68%',
+    plugins: {
+      legend: { position: 'right', labels: { boxWidth: 12, padding: 14, font: { size: 12 } } },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.label}: $${ctx.raw}M` } }
+    }
+  }
+});
+
+// ── TEAM BAR ──────────────────────────────────────────
+new Chart(document.getElementById('teamChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Joan', 'Luz', 'Juan', 'Ami', 'Facu'],
+    datasets: [
+      {
+        label: 'Inv. Aprobada ($M)',
+        data: [132, 108, 97, 48, 5],
+        backgroundColor: [
+          '#6366F1', '#0891B2', '#0F766E', '#B45309', '#7C3AED'
+        ],
+        borderRadius: 8,
+        borderSkipped: false,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    indexAxis: 'y',
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ` $${ctx.raw}M aprobados` } }
+    },
+    scales: {
+      x: {
+        grid: { color: 'rgba(0,0,0,0.04)' },
+        ticks: { callback: v => '$' + v + 'M', font: { size: 11 } }
+      },
+      y: { grid: { display: false }, ticks: { font: { size: 13, weight: '600' } } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
