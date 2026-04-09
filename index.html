@@ -180,7 +180,7 @@
     padding: 36px 40px;
     color: white;
     display: grid;
-    grid-template-columns: 1fr auto 1fr auto 1fr;
+    grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
     gap: 0;
     align-items: center;
     border: 1px solid rgba(255,255,255,0.06);
@@ -515,7 +515,8 @@
     .kpi-row { grid-template-columns: repeat(2, 1fr); }
     .yoy-grid { grid-template-columns: repeat(2, 1fr); }
     .chart-grid, .chart-grid-2, .camp-row { grid-template-columns: 1fr; }
-    .ratio-spotlight { grid-template-columns: 1fr; }
+    .ratio-spotlight { grid-template-columns: 1fr 1fr; }
+    .ratio-spotlight .ratio-divider { display: none; }
     .ratio-divider { display: none; }
     .team-grid { grid-template-columns: repeat(3, 1fr); }
     .case-body { grid-template-columns: 1fr; }
@@ -1028,7 +1029,7 @@
     </div>
   </div>
 
-  <div class="chart-grid-2" style="margin-top:18px;">
+  <div class="chart-grid-2" style="margin-top:18px; grid-template-columns: 1fr 1fr 1fr;">
     <div class="chart-card">
       <div class="c-header">
         <div class="c-title">GMV Mensual</div>
@@ -1040,11 +1041,20 @@
     </div>
     <div class="chart-card">
       <div class="c-header">
-        <div class="c-title">Campañas por Estado</div>
-        <div class="c-sub">Distribución inversión Q1</div>
+        <div class="c-title">Campañas por Estado — Inversión</div>
+        <div class="c-sub">Distribución por monto aprobado Q1</div>
       </div>
       <div class="chart-wrap">
         <canvas id="campChart"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="c-header">
+        <div class="c-title">Campañas por Estado — Cantidad</div>
+        <div class="c-sub">Distribución por número de campañas Q1</div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="campChartCant"></canvas>
       </div>
     </div>
   </div>
@@ -1480,6 +1490,29 @@ new Chart(document.getElementById('campChart'), {
     plugins: {
       legend: { position: 'right', labels: { boxWidth: 12, padding: 14, font: { size: 12 } } },
       tooltip: { callbacks: { label: ctx => ` ${ctx.label}: $${ctx.raw}M` } }
+    }
+  }
+});
+
+// ── CAMPAIGN DONUT — CANTIDAD ─────────────────────────
+new Chart(document.getElementById('campChartCant'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Aprobadas', 'Rechazadas', 'En Negociación'],
+    datasets: [{
+      data: [84, 69, 8],
+      backgroundColor: [GREEN, RED, YELLOW],
+      borderWidth: 0,
+      hoverOffset: 8,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '68%',
+    plugins: {
+      legend: { position: 'right', labels: { boxWidth: 12, padding: 14, font: { size: 12 } } },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} campañas` } }
     }
   }
 });
