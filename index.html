@@ -1012,7 +1012,7 @@
     <div class="chart-card">
       <div class="c-header">
         <div class="c-title">Ad-to-sales Ratio — Evolución Q1</div>
-        <div class="c-sub">Real 2026 vs PPTO 2026 vs Real 2025</div>
+        <div class="c-sub">Real 2026 vs Real 2025</div>
       </div>
       <div class="chart-wrap tall">
         <canvas id="ratioChart"></canvas>
@@ -1087,7 +1087,7 @@
       <div class="camp-stat">
         <div class="cs-val" style="color:var(--red)">69</div>
         <div class="cs-label">Rechazadas</div>
-        <div class="cs-sub">Oportunidad a recuperar</div>
+        <div class="cs-sub">$313M inversión perdida</div>
       </div>
     </div>
     <div class="chart-card">
@@ -1306,18 +1306,6 @@ new Chart(document.getElementById('ratioChart'), {
         fill: true,
       },
       {
-        label: 'PPTO 2026',
-        data: [0.15, 0.09, 0.15],
-        borderColor: '#60A5FA',
-        backgroundColor: 'rgba(96,165,250,0.05)',
-        borderWidth: 2,
-        borderDash: [6, 3],
-        pointRadius: 5,
-        pointBackgroundColor: '#60A5FA',
-        tension: 0.4,
-        fill: false,
-      },
-      {
         label: 'Ad-to-sales Real 2025',
         data: [0.1000, 0.0700, 0.1200],
         borderColor: '#94A3B8',
@@ -1356,14 +1344,47 @@ new Chart(document.getElementById('ratioChart'), {
 });
 
 // ── RM CHART ─────────────────────────────────────────
+const rmReal26 = [87.0, 102.8, 203.0];
+const rmReal25 = [109.4, 71.4, 152.7];
+const rmYoYAbs = rmReal26.map((v, i) => +(v - rmReal25[i]).toFixed(1));
+const rmYoYPct = rmReal26.map((v, i) => +((v - rmReal25[i]) / rmReal25[i] * 100).toFixed(1));
+
+const yoyLabelPlugin = {
+  id: 'yoyLabels',
+  afterDatasetsDraw(chart) {
+    const { ctx, scales: { x, y } } = chart;
+    const barMeta = chart.getDatasetMeta(0); // RM Real 2026 bars
+    if (!barMeta || !barMeta.data.length) return;
+    ctx.save();
+    barMeta.data.forEach((bar, i) => {
+      const abs = rmYoYAbs[i];
+      const pct = rmYoYPct[i];
+      const isPos = abs >= 0;
+      const label1 = (isPos ? '+' : '') + abs.toFixed(1) + 'M';
+      const label2 = (isPos ? '+' : '') + pct.toFixed(1) + '%';
+      const color = isPos ? '#00C67A' : '#E8002D';
+      const barTop = bar.y - 10;
+      ctx.font = 'bold 11px Segoe UI, system-ui, sans-serif';
+      ctx.fillStyle = color;
+      ctx.textAlign = 'center';
+      ctx.fillText(label1, bar.x, barTop - 14);
+      ctx.font = '10px Segoe UI, system-ui, sans-serif';
+      ctx.fillStyle = color;
+      ctx.fillText(label2 + ' YoY', bar.x, barTop - 2);
+    });
+    ctx.restore();
+  }
+};
+
 new Chart(document.getElementById('rmChart'), {
   type: 'bar',
+  plugins: [yoyLabelPlugin],
   data: {
     labels: months,
     datasets: [
       {
         label: 'RM Real 2026',
-        data: [87.0, 102.8, 203.0],
+        data: rmReal26,
         backgroundColor: RED,
         borderRadius: 6,
         borderSkipped: false,
@@ -1371,32 +1392,20 @@ new Chart(document.getElementById('rmChart'), {
       },
       {
         label: 'RM Real 2025',
-        data: [109.4, 71.4, 152.7],
+        data: rmReal25,
         backgroundColor: 'rgba(148,163,184,0.35)',
         borderColor: '#94A3B8',
         borderWidth: 2,
         borderRadius: 6,
         borderSkipped: false,
         order: 2,
-      },
-      {
-        label: 'PPTO 2026',
-        type: 'line',
-        data: [163.9, 95.6, 211.1],
-        borderColor: '#60A5FA',
-        borderWidth: 2,
-        borderDash: [6, 3],
-        pointRadius: 4,
-        pointBackgroundColor: '#60A5FA',
-        tension: 0.3,
-        fill: false,
-        order: 0,
       }
     ]
   },
   options: {
     responsive: true,
     maintainAspectRatio: false,
+    layout: { padding: { top: 32 } },
     plugins: {
       legend: { position: 'top', labels: { boxWidth: 12, padding: 14, font: { size: 11 } } },
       tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: $${ctx.raw}M` } }
@@ -1471,14 +1480,56 @@ new Chart(document.getElementById('gmvChart'), {
   }
 });
 
-// ── CAMPAIGN DONUT ────────────────────────────────────
+// ── DONUT PERCENT LABELS PLUGIN ───────────────────────
+const donutPctPlugin = {
+  id: 'donutPct',
+  afterDatasetsDraw(chart) {
+    const { ctx } = chart;
+    const meta = chart.getDatasetMeta(0);
+    const total = meta.total;
+    const colors = chart.data.datasets[0].backgroundColor;
+    meta.data.forEach((arc, i) => {
+      const pct = (chart.data.datasets[0].data[i] / total * 100).toFixed(1) + '%';
+      const midAngle = arc.startAngle + (arc.endAngle - arc.startAngle) / 2;
+      // Position label outside the arc
+      const r = arc.outerRadius + 22;
+      const x = arc.x + Math.cos(midAngle) * r;
+      const y = arc.y + Math.sin(midAngle) * r;
+      ctx.save();
+      // White pill background
+      ctx.font = 'bold 12px Segoe UI, system-ui, sans-serif';
+      const tw = ctx.measureText(pct).width;
+      const pw = tw + 12, ph = 20, px = x - pw / 2, py = y - ph / 2;
+      ctx.beginPath();
+      ctx.roundRect(px, py, pw, ph, 10);
+      ctx.fillStyle = '#fff';
+      ctx.shadowColor = 'rgba(0,0,0,0.12)';
+      ctx.shadowBlur = 6;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      // Colored border
+      ctx.strokeStyle = colors[i];
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      // Colored text
+      ctx.fillStyle = colors[i];
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(pct, x, y);
+      ctx.restore();
+    });
+  }
+};
+
+// ── CAMPAIGN DONUT — INVERSIÓN ────────────────────────
 new Chart(document.getElementById('campChart'), {
   type: 'doughnut',
+  plugins: [donutPctPlugin],
   data: {
-    labels: ['Aprobadas', 'Rechazadas', 'En Negociación'],
+    labels: ['Aprobadas', 'Rechazadas'],
     datasets: [{
-      data: [384, 69, 31],
-      backgroundColor: [GREEN, RED, YELLOW],
+      data: [384, 313],
+      backgroundColor: [GREEN, RED],
       borderWidth: 0,
       hoverOffset: 8,
     }]
@@ -1487,6 +1538,7 @@ new Chart(document.getElementById('campChart'), {
     responsive: true,
     maintainAspectRatio: false,
     cutout: '68%',
+    layout: { padding: 28 },
     plugins: {
       legend: { position: 'right', labels: { boxWidth: 12, padding: 14, font: { size: 12 } } },
       tooltip: { callbacks: { label: ctx => ` ${ctx.label}: $${ctx.raw}M` } }
@@ -1497,11 +1549,12 @@ new Chart(document.getElementById('campChart'), {
 // ── CAMPAIGN DONUT — CANTIDAD ─────────────────────────
 new Chart(document.getElementById('campChartCant'), {
   type: 'doughnut',
+  plugins: [donutPctPlugin],
   data: {
-    labels: ['Aprobadas', 'Rechazadas', 'En Negociación'],
+    labels: ['Aprobadas', 'Rechazadas'],
     datasets: [{
-      data: [84, 69, 8],
-      backgroundColor: [GREEN, RED, YELLOW],
+      data: [84, 69],
+      backgroundColor: [GREEN, RED],
       borderWidth: 0,
       hoverOffset: 8,
     }]
@@ -1513,7 +1566,8 @@ new Chart(document.getElementById('campChartCant'), {
     plugins: {
       legend: { position: 'right', labels: { boxWidth: 12, padding: 14, font: { size: 12 } } },
       tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} campañas` } }
-    }
+    },
+    layout: { padding: 28 }
   }
 });
 
