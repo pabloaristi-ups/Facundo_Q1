@@ -352,6 +352,30 @@
   .team-stat { font-size: 11px; color: var(--gray); margin: 3px 0; display: flex; justify-content: space-between; }
   .team-stat strong { color: var(--dark); }
 
+  /* ─── P&L 2026 ──────────────────────────────────── */
+  .pl-kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
+  .pl-kpi { background: white; border-radius: 14px; border: 1px solid #E2E8F0; padding: 18px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .pl-kpi-label { font-size: 11px; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+  .pl-kpi-val { font-size: 26px; font-weight: 800; color: var(--dark); line-height: 1; margin-bottom: 4px; }
+  .pl-kpi-sub { font-size: 12px; color: var(--gray); }
+  .pl-kpi-badge { display: inline-block; margin-top: 6px; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .pl-kpi-badge.up { background: #DCFCE7; color: #15803D; }
+  .pl-kpi-badge.down { background: #FEE2E2; color: #B91C1C; }
+  .pl-body { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; }
+  .pl-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .pl-table thead th { padding: 10px 14px; text-align: right; font-size: 11px; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: .4px; border-bottom: 2px solid #E2E8F0; }
+  .pl-table thead th:first-child { text-align: left; }
+  .pl-table tbody td { padding: 10px 14px; border-bottom: 1px solid #F1F5F9; text-align: right; color: var(--dark); }
+  .pl-table tbody td:first-child { text-align: left; font-weight: 600; }
+  .pl-table tbody tr:last-child td { border-bottom: none; }
+  .pl-table .row-total td { background: #F8FAFC; font-weight: 700; }
+  .pl-table .row-margin td { color: var(--green); font-weight: 700; }
+  .pl-table .row-ppto td { color: var(--gray); font-style: italic; }
+  .pl-table .row-sep td { height: 8px; border: none; background: transparent; }
+  .pl-badge-cell { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 11px; font-weight: 700; }
+  .pl-badge-cell.up { background: #DCFCE7; color: #15803D; }
+  .pl-badge-cell.dn { background: #FEE2E2; color: #B91C1C; }
+
   /* ─── GOOGLE CASE STUDY ──────────────────────────── */
   .case-study-wrapper {
     background: linear-gradient(135deg, #0A0F1E 0%, #0F1624 100%);
@@ -1029,122 +1053,125 @@
     </div>
   </div>
 
-  <div class="chart-grid-2" style="margin-top:18px;">
-    <div class="chart-card">
-      <div class="c-header">
-        <div class="c-title">GMV Mensual</div>
-        <div class="c-sub">Real vs PPTO (en millones ARS)</div>
-      </div>
-      <div class="chart-wrap tall">
-        <canvas id="gmvChart"></canvas>
-      </div>
-    </div>
-    <div class="chart-card">
-      <div class="c-header">
-        <div class="c-title">Campañas por Estado — Inversión</div>
-        <div class="c-sub">Distribución por monto aprobado Q1</div>
-      </div>
-      <div class="chart-wrap tall">
-        <canvas id="campChart"></canvas>
-      </div>
-    </div>
-  </div>
-
   <!-- ══════════════════════════════════════════════
-       CAMPAIGNS SUMMARY
+       P&L 2026
   ══════════════════════════════════════════════ -->
   <div class="section-label">
     <div class="dot"></div>
-    Pipeline Comercial
+    P&amp;L 2026 — Resultado Q1
   </div>
 
-  <div class="camp-row">
-    <div class="camp-stats">
-      <div class="camp-stat">
-        <div class="cs-val">146</div>
-        <div class="cs-label">Campañas Totales</div>
-        <div class="cs-sub">Q1 Ene–Mar 2026</div>
-      </div>
-      <div class="camp-stat">
-        <div class="cs-val">81</div>
-        <div class="cs-label">Aprobadas</div>
-        <div class="cs-sub">55% tasa conversión</div>
-      </div>
-      <div class="camp-stat">
-        <div class="cs-val">$393M</div>
-        <div class="cs-label">Inversión Aprobada</div>
-        <div class="cs-sub">Q1 Ene–Mar 2026</div>
-      </div>
-      <div class="camp-stat">
-        <div class="cs-val" style="color:var(--red)">65</div>
-        <div class="cs-label">Rechazadas</div>
-        <div class="cs-sub">$313M inversión no concretada</div>
-      </div>
+  <!-- KPI strip -->
+  <div class="pl-kpi-row">
+    <div class="pl-kpi">
+      <div class="pl-kpi-label">Revenue RM — Q1 Real</div>
+      <div class="pl-kpi-val">$392.8M</div>
+      <div class="pl-kpi-sub">vs PPTO $470.6M</div>
+      <span class="pl-kpi-badge down">−16.5% vs PPTO</span>
     </div>
+    <div class="pl-kpi" style="border-left: 4px solid var(--green);">
+      <div class="pl-kpi-label">Margen en USD — Q1 Real</div>
+      <div class="pl-kpi-val" style="color:var(--green)">USD 213.7K</div>
+      <div class="pl-kpi-sub">vs PPTO USD 208.6K</div>
+      <span class="pl-kpi-badge up">+2.4% vs PPTO · baja del TC</span>
+    </div>
+    <div class="pl-kpi">
+      <div class="pl-kpi-label">Margen Bruto — Q1 Real</div>
+      <div class="pl-kpi-val">$295.9M</div>
+      <div class="pl-kpi-sub">vs PPTO $320.9M</div>
+      <span class="pl-kpi-badge down">−7.8% vs PPTO $</span>
+    </div>
+    <div class="pl-kpi">
+      <div class="pl-kpi-label">Margen % — Q1 Real</div>
+      <div class="pl-kpi-val" style="color:var(--green)">75.3%</div>
+      <div class="pl-kpi-sub">vs PPTO 68%</div>
+      <span class="pl-kpi-badge up">+7.2pp vs PPTO</span>
+    </div>
+  </div>
+
+  <!-- Table + Chart -->
+  <div class="pl-body">
+    <!-- Tabla mensual -->
     <div class="chart-card">
       <div class="c-header">
-        <div class="c-title">Performance del Equipo Comercial — Q1</div>
-        <div class="c-sub">Inversión aprobada por responsable</div>
+        <div class="c-title">Evolución P&amp;L — Q1 2026</div>
+        <div class="c-sub">Revenue, Costo y Margen mensual (ARS millones)</div>
       </div>
-      <div class="chart-wrap">
-        <canvas id="teamChart"></canvas>
+      <table class="pl-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Enero</th>
+            <th>Febrero</th>
+            <th>Marzo</th>
+            <th>Q1 Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Revenue RM Real</td>
+            <td>$87.0M</td>
+            <td>$102.8M</td>
+            <td>$203.0M</td>
+            <td>$392.8M</td>
+          </tr>
+          <tr class="row-ppto">
+            <td>Revenue RM PPTO</td>
+            <td>$163.9M</td>
+            <td>$95.6M</td>
+            <td>$211.1M</td>
+            <td>$470.6M</td>
+          </tr>
+          <tr class="row-sep"><td colspan="5"></td></tr>
+          <tr>
+            <td>Costo Operativo</td>
+            <td>$23.2M</td>
+            <td>$30.9M</td>
+            <td>$42.7M</td>
+            <td>$96.8M</td>
+          </tr>
+          <tr class="row-sep"><td colspan="5"></td></tr>
+          <tr class="row-margin">
+            <td>Margen Real ($)</td>
+            <td>$63.7M</td>
+            <td>$72.0M</td>
+            <td>$160.2M</td>
+            <td>$295.9M</td>
+          </tr>
+          <tr class="row-margin">
+            <td>Margen Real (%)</td>
+            <td><span class="pl-badge-cell up">73.3%</span></td>
+            <td><span class="pl-badge-cell up">70.0%</span></td>
+            <td><span class="pl-badge-cell up">78.9%</span></td>
+            <td><span class="pl-badge-cell up">75.3%</span></td>
+          </tr>
+          <tr class="row-ppto">
+            <td>Margen PPTO (%)</td>
+            <td>68.0%</td>
+            <td>66.0%</td>
+            <td>69.0%</td>
+            <td>68.0%</td>
+          </tr>
+          <tr>
+            <td>Δ Margen vs PPTO</td>
+            <td><span class="pl-badge-cell up">+5.3pp</span></td>
+            <td><span class="pl-badge-cell up">+4.0pp</span></td>
+            <td><span class="pl-badge-cell up">+9.9pp</span></td>
+            <td><span class="pl-badge-cell up">+7.2pp</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Gráfico Margen % Real vs PPTO -->
+    <div class="chart-card">
+      <div class="c-header">
+        <div class="c-title">Margen % — Real vs PPTO</div>
+        <div class="c-sub">Eficiencia operativa Q1 2026</div>
       </div>
-    </div>
-  </div>
-
-  <!-- ══════════════════════════════════════════════
-       TEAM CARDS
-  ══════════════════════════════════════════════ -->
-  <div class="section-label">
-    <div class="dot"></div>
-    Equipo Comercial
-  </div>
-
-  <div class="team-grid">
-    <!-- Joan -->
-    <div class="team-card">
-      <div class="team-avatar" style="background:#6366F1;">JO</div>
-      <div class="team-name">Joan</div>
-      <div class="team-rate mid">63%</div>
-      <div class="team-progress"><div class="team-progress-fill mid" style="width:63%"></div></div>
-      <div class="team-stat"><span>Aprobadas</span><strong>19 / 30</strong></div>
-      <div class="team-stat"><span>Inversión</span><strong>$132M</strong></div>
-    </div>
-    <!-- Luz -->
-    <div class="team-card">
-      <div class="team-avatar" style="background:#0891B2;">LZ</div>
-      <div class="team-name">Luz</div>
-      <div class="team-rate high">76%</div>
-      <div class="team-progress"><div class="team-progress-fill high" style="width:76%"></div></div>
-      <div class="team-stat"><span>Aprobadas</span><strong>22 / 29</strong></div>
-      <div class="team-stat"><span>Inversión</span><strong>$108M</strong></div>
-    </div>
-    <!-- Juan -->
-    <div class="team-card">
-      <div class="team-avatar" style="background:#0F766E;">JN</div>
-      <div class="team-name">Juan</div>
-      <div class="team-rate mid">59%</div>
-      <div class="team-progress"><div class="team-progress-fill mid" style="width:59%"></div></div>
-      <div class="team-stat"><span>Aprobadas</span><strong>33 / 56</strong></div>
-      <div class="team-stat"><span>Inversión</span><strong>$97M</strong></div>
-    </div>
-    <!-- Ami -->
-    <div class="team-card">
-      <div class="team-avatar" style="background:#B45309;">AM</div>
-      <div class="team-name">Ami</div>
-      <div class="team-rate low">23%</div>
-      <div class="team-progress"><div class="team-progress-fill low" style="width:23%"></div></div>
-      <div class="team-stat"><span>Aprobadas</span><strong>8 / 35</strong></div>
-      <div class="team-stat"><span>Inversión</span><strong>$48M</strong></div>
-    </div>
-    <!-- Facu -->
-    <div class="team-card">
-      <div class="team-avatar" style="background:#7C3AED;">FA</div>
-      <div class="team-name">Facu</div>
-      <div class="team-rate low">18%</div>
-      <div class="team-progress"><div class="team-progress-fill low" style="width:18%"></div></div>
-      <div class="team-stat"><span>Aprobadas</span><strong>2 / 11</strong></div>
-      <div class="team-stat"><span>Inversión</span><strong>$5M</strong></div>
+      <div class="chart-wrap tall">
+        <canvas id="plChart"></canvas>
+      </div>
     </div>
   </div>
 
@@ -1393,44 +1420,33 @@ new Chart(document.getElementById('rmChart'), {
   }
 });
 
-// ── GMV CHART ─────────────────────────────────────────
-new Chart(document.getElementById('gmvChart'), {
+
+// ── P&L — MARGEN % REAL vs PPTO ───────────────────────
+new Chart(document.getElementById('plChart'), {
   type: 'line',
   data: {
-    labels: months,
+    labels: ['Enero', 'Febrero', 'Marzo'],
     datasets: [
       {
-        label: 'GMV Real 2026',
-        data: [94.7, 83.2, 117.6],
-        borderColor: GREEN,
-        backgroundColor: 'rgba(0,198,122,0.08)',
+        label: 'Margen % Real',
+        data: [73.3, 70.0, 78.9],
+        borderColor: 'rgba(22,163,74,1)',
+        backgroundColor: 'rgba(22,163,74,0.08)',
         borderWidth: 3,
         pointRadius: 6,
-        pointBackgroundColor: GREEN,
+        pointBackgroundColor: 'rgba(22,163,74,1)',
         tension: 0.4,
         fill: true,
       },
       {
-        label: 'GMV Real 2025',
-        data: [105.4, 109.6, 126.8],
-        borderColor: '#94A3B8',
+        label: 'Margen % PPTO',
+        data: [68.0, 66.0, 69.0],
+        borderColor: 'rgba(148,163,184,0.9)',
         backgroundColor: 'transparent',
         borderWidth: 2,
-        borderDash: [4, 4],
+        borderDash: [5, 4],
         pointRadius: 5,
-        pointBackgroundColor: '#94A3B8',
-        tension: 0.4,
-        fill: false,
-      },
-      {
-        label: 'GMV PPTO 2026',
-        data: [109.3, 106.2, 140.7],
-        borderColor: '#60A5FA',
-        backgroundColor: 'transparent',
-        borderWidth: 2,
-        borderDash: [6, 3],
-        pointRadius: 5,
-        pointBackgroundColor: '#60A5FA',
+        pointBackgroundColor: 'rgba(148,163,184,0.9)',
         tension: 0.4,
         fill: false,
       }
@@ -1440,144 +1456,25 @@ new Chart(document.getElementById('gmvChart'), {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      legend: { position: 'top', labels: { boxWidth: 12, padding: 14, font: { size: 11 } } },
-      tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: $${ctx.raw}B` } }
+      legend: { position: 'top', labels: { boxWidth: 12, padding: 14, font: { size: 12 } } },
+      tooltip: {
+        callbacks: {
+          label: ctx => ` ${ctx.dataset.label}: ${ctx.raw.toFixed(1)}%`
+        }
+      }
     },
     scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 12, weight: '600' } } },
       y: {
+        min: 55,
+        max: 90,
         grid: { color: 'rgba(0,0,0,0.04)' },
-        ticks: { callback: v => '$' + v + 'B', font: { size: 11 } }
-      },
-      x: { grid: { display: false } }
-    }
-  }
-});
-
-// ── DONUT PERCENT LABELS PLUGIN ───────────────────────
-const donutPctPlugin = {
-  id: 'donutPct',
-  afterDatasetsDraw(chart) {
-    const { ctx, chartArea } = chart;
-    const meta = chart.getDatasetMeta(0);
-    const total = meta.total;
-    const colors = chart.data.datasets[0].backgroundColor;
-    meta.data.forEach((arc, i) => {
-      const pct = Math.round(chart.data.datasets[0].data[i] / total * 100) + '%';
-      const midAngle = arc.startAngle + (arc.endAngle - arc.startAngle) / 2;
-      const r = arc.outerRadius + 26;
-      let x = arc.x + Math.cos(midAngle) * r;
-      let y = arc.y + Math.sin(midAngle) * r;
-      ctx.save();
-      ctx.font = 'bold 12px Segoe UI, system-ui, sans-serif';
-      const tw = ctx.measureText(pct).width;
-      const pw = tw + 14, ph = 22;
-      // Clamp so pill stays inside canvas
-      x = Math.max(chartArea.left + pw / 2 + 4, Math.min(chartArea.right - pw / 2 - 4, x));
-      y = Math.max(chartArea.top + ph / 2 + 4, Math.min(chartArea.bottom - ph / 2 - 4, y));
-      const px = x - pw / 2, py = y - ph / 2;
-      ctx.beginPath();
-      ctx.roundRect(px, py, pw, ph, 11);
-      ctx.fillStyle = '#fff';
-      ctx.shadowColor = 'rgba(0,0,0,0.12)';
-      ctx.shadowBlur = 6;
-      ctx.fill();
-      ctx.shadowBlur = 0;
-      ctx.strokeStyle = colors[i];
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-      ctx.fillStyle = colors[i];
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(pct, x, y);
-      ctx.restore();
-    });
-  }
-};
-
-// ── CAMPAIGN DONUT — INVERSIÓN ────────────────────────
-new Chart(document.getElementById('campChart'), {
-  type: 'doughnut',
-  plugins: [donutPctPlugin],
-  data: {
-    labels: ['Aprobadas', 'Rechazadas'],
-    datasets: [{
-      data: [393, 313],
-      backgroundColor: [GREEN, RED],
-      borderWidth: 0,
-      hoverOffset: 8,
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    cutout: '68%',
-    layout: { padding: 28 },
-    plugins: {
-      legend: { position: 'right', labels: { boxWidth: 12, padding: 14, font: { size: 12 } } },
-      tooltip: { callbacks: { label: ctx => ` ${ctx.label}: $${ctx.raw}M` } }
-    }
-  }
-});
-
-// ── CAMPAIGN DONUT — CANTIDAD ─────────────────────────
-new Chart(document.getElementById('campChartCant'), {
-  type: 'doughnut',
-  plugins: [donutPctPlugin],
-  data: {
-    labels: ['Aprobadas', 'Rechazadas'],
-    datasets: [{
-      data: [81, 65],
-      backgroundColor: [GREEN, RED],
-      borderWidth: 0,
-      hoverOffset: 8,
-    }]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    cutout: '68%',
-    plugins: {
-      legend: { position: 'right', labels: { boxWidth: 12, padding: 14, font: { size: 12 } } },
-      tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} campañas (Q1 Ene–Mar)` } }
-    },
-    layout: { padding: 28 }
-  }
-});
-
-// ── TEAM BAR ──────────────────────────────────────────
-new Chart(document.getElementById('teamChart'), {
-  type: 'bar',
-  data: {
-    labels: ['Joan', 'Luz', 'Juan', 'Ami', 'Facu'],
-    datasets: [
-      {
-        label: 'Inv. Aprobada ($M)',
-        data: [132, 108, 97, 48, 5],
-        backgroundColor: [
-          '#6366F1', '#0891B2', '#0F766E', '#B45309', '#7C3AED'
-        ],
-        borderRadius: 8,
-        borderSkipped: false,
+        ticks: { callback: v => v + '%', font: { size: 11 } }
       }
-    ]
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    indexAxis: 'y',
-    plugins: {
-      legend: { display: false },
-      tooltip: { callbacks: { label: ctx => ` $${ctx.raw}M aprobados` } }
-    },
-    scales: {
-      x: {
-        grid: { color: 'rgba(0,0,0,0.04)' },
-        ticks: { callback: v => '$' + v + 'M', font: { size: 11 } }
-      },
-      y: { grid: { display: false }, ticks: { font: { size: 13, weight: '600' } } }
     }
   }
 });
+
 </script>
 
 </body>
