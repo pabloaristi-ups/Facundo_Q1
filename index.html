@@ -291,7 +291,7 @@
   .k-badge.neutral { background: #DBEAFE; color: #2563EB; }
 
   /* ─── CHARTS ─────────────────────────────────────── */
-  .chart-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 18px; }
+  .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   .chart-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   .chart-card {
     background: white;
@@ -831,7 +831,7 @@
       <div class="hero-chips">
         <div class="chip">$393M RM Facturado</div>
         <div class="chip">$295.4B GMV</div>
-        <div class="chip">161 Campañas</div>
+        <div class="chip">146 Campañas Q1</div>
         <div class="chip hot">+36% YoY en Ad-to-sales Ratio</div>
         <div class="chip hot">Caso Éxito Google</div>
       </div>
@@ -1020,8 +1020,8 @@
     </div>
     <div class="chart-card">
       <div class="c-header">
-        <div class="c-title">RM Mensual</div>
-        <div class="c-sub">Real vs PPTO vs Forecast (ARS)</div>
+        <div class="c-title">Revenue — Evolución Q1</div>
+        <div class="c-sub">Real 2026 vs Real 2025</div>
       </div>
       <div class="chart-wrap tall">
         <canvas id="rmChart"></canvas>
@@ -1029,13 +1029,13 @@
     </div>
   </div>
 
-  <div class="chart-grid-2" style="margin-top:18px; grid-template-columns: 1fr 1fr 1fr;">
+  <div class="chart-grid-2" style="margin-top:18px;">
     <div class="chart-card">
       <div class="c-header">
         <div class="c-title">GMV Mensual</div>
         <div class="c-sub">Real vs PPTO (en millones ARS)</div>
       </div>
-      <div class="chart-wrap">
+      <div class="chart-wrap tall">
         <canvas id="gmvChart"></canvas>
       </div>
     </div>
@@ -1044,17 +1044,8 @@
         <div class="c-title">Campañas por Estado — Inversión</div>
         <div class="c-sub">Distribución por monto aprobado Q1</div>
       </div>
-      <div class="chart-wrap">
+      <div class="chart-wrap tall">
         <canvas id="campChart"></canvas>
-      </div>
-    </div>
-    <div class="chart-card">
-      <div class="c-header">
-        <div class="c-title">Campañas por Estado — Cantidad</div>
-        <div class="c-sub">Distribución por número de campañas Q1</div>
-      </div>
-      <div class="chart-wrap">
-        <canvas id="campChartCant"></canvas>
       </div>
     </div>
   </div>
@@ -1070,24 +1061,24 @@
   <div class="camp-row">
     <div class="camp-stats">
       <div class="camp-stat">
-        <div class="cs-val">161</div>
+        <div class="cs-val">146</div>
         <div class="cs-label">Campañas Totales</div>
-        <div class="cs-sub">2026 acumulado Q1</div>
+        <div class="cs-sub">Q1 Ene–Mar 2026</div>
       </div>
       <div class="camp-stat">
-        <div class="cs-val">84</div>
+        <div class="cs-val">81</div>
         <div class="cs-label">Aprobadas</div>
-        <div class="cs-sub">52% tasa conversión</div>
+        <div class="cs-sub">55% tasa conversión</div>
       </div>
       <div class="camp-stat">
-        <div class="cs-val">$384M</div>
+        <div class="cs-val">$393M</div>
         <div class="cs-label">Inversión Aprobada</div>
-        <div class="cs-sub">Suma Q1 2026</div>
+        <div class="cs-sub">Q1 Ene–Mar 2026</div>
       </div>
       <div class="camp-stat">
-        <div class="cs-val" style="color:var(--red)">69</div>
+        <div class="cs-val" style="color:var(--red)">65</div>
         <div class="cs-label">Rechazadas</div>
-        <div class="cs-sub">$313M inversión perdida</div>
+        <div class="cs-sub">$313M inversión no concretada</div>
       </div>
     </div>
     <div class="chart-card">
@@ -1349,65 +1340,47 @@ const rmReal25 = [109.4, 71.4, 152.7];
 const rmYoYAbs = rmReal26.map((v, i) => +(v - rmReal25[i]).toFixed(1));
 const rmYoYPct = rmReal26.map((v, i) => +((v - rmReal25[i]) / rmReal25[i] * 100).toFixed(1));
 
-const yoyLabelPlugin = {
-  id: 'yoyLabels',
-  afterDatasetsDraw(chart) {
-    const { ctx, scales: { x, y } } = chart;
-    const barMeta = chart.getDatasetMeta(0); // RM Real 2026 bars
-    if (!barMeta || !barMeta.data.length) return;
-    ctx.save();
-    barMeta.data.forEach((bar, i) => {
-      const abs = rmYoYAbs[i];
-      const pct = rmYoYPct[i];
-      const isPos = abs >= 0;
-      const label1 = (isPos ? '+' : '') + abs.toFixed(1) + 'M';
-      const label2 = (isPos ? '+' : '') + pct.toFixed(1) + '%';
-      const color = isPos ? '#00C67A' : '#E8002D';
-      const barTop = bar.y - 10;
-      ctx.font = 'bold 11px Segoe UI, system-ui, sans-serif';
-      ctx.fillStyle = color;
-      ctx.textAlign = 'center';
-      ctx.fillText(label1, bar.x, barTop - 14);
-      ctx.font = '10px Segoe UI, system-ui, sans-serif';
-      ctx.fillStyle = color;
-      ctx.fillText(label2 + ' YoY', bar.x, barTop - 2);
-    });
-    ctx.restore();
-  }
-};
+const rmYoYPlugin = { id: 'rmYoY' };
 
 new Chart(document.getElementById('rmChart'), {
-  type: 'bar',
-  plugins: [yoyLabelPlugin],
+  type: 'line',
+  plugins: [rmYoYPlugin],
   data: {
     labels: months,
     datasets: [
       {
         label: 'RM Real 2026',
         data: rmReal26,
-        backgroundColor: RED,
-        borderRadius: 6,
-        borderSkipped: false,
-        order: 1,
+        borderColor: RED,
+        backgroundColor: 'rgba(232,0,45,0.08)',
+        borderWidth: 3,
+        pointRadius: 6,
+        pointBackgroundColor: RED,
+        tension: 0.4,
+        fill: true,
+        order: 0,
       },
       {
         label: 'RM Real 2025',
         data: rmReal25,
-        backgroundColor: 'rgba(148,163,184,0.35)',
         borderColor: '#94A3B8',
+        backgroundColor: 'transparent',
         borderWidth: 2,
-        borderRadius: 6,
-        borderSkipped: false,
-        order: 2,
+        borderDash: [4, 4],
+        pointRadius: 5,
+        pointBackgroundColor: '#94A3B8',
+        tension: 0.4,
+        fill: false,
+        order: 1,
       }
     ]
   },
   options: {
     responsive: true,
     maintainAspectRatio: false,
-    layout: { padding: { top: 32 } },
+    layout: { padding: { top: 16 } },
     plugins: {
-      legend: { position: 'top', labels: { boxWidth: 12, padding: 14, font: { size: 11 } } },
+      legend: { position: 'top', labels: { boxWidth: 12, padding: 16, font: { size: 12 } } },
       tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: $${ctx.raw}M` } }
     },
     scales: {
@@ -1484,34 +1457,34 @@ new Chart(document.getElementById('gmvChart'), {
 const donutPctPlugin = {
   id: 'donutPct',
   afterDatasetsDraw(chart) {
-    const { ctx } = chart;
+    const { ctx, chartArea } = chart;
     const meta = chart.getDatasetMeta(0);
     const total = meta.total;
     const colors = chart.data.datasets[0].backgroundColor;
     meta.data.forEach((arc, i) => {
-      const pct = (chart.data.datasets[0].data[i] / total * 100).toFixed(1) + '%';
+      const pct = Math.round(chart.data.datasets[0].data[i] / total * 100) + '%';
       const midAngle = arc.startAngle + (arc.endAngle - arc.startAngle) / 2;
-      // Position label outside the arc
-      const r = arc.outerRadius + 22;
-      const x = arc.x + Math.cos(midAngle) * r;
-      const y = arc.y + Math.sin(midAngle) * r;
+      const r = arc.outerRadius + 26;
+      let x = arc.x + Math.cos(midAngle) * r;
+      let y = arc.y + Math.sin(midAngle) * r;
       ctx.save();
-      // White pill background
       ctx.font = 'bold 12px Segoe UI, system-ui, sans-serif';
       const tw = ctx.measureText(pct).width;
-      const pw = tw + 12, ph = 20, px = x - pw / 2, py = y - ph / 2;
+      const pw = tw + 14, ph = 22;
+      // Clamp so pill stays inside canvas
+      x = Math.max(chartArea.left + pw / 2 + 4, Math.min(chartArea.right - pw / 2 - 4, x));
+      y = Math.max(chartArea.top + ph / 2 + 4, Math.min(chartArea.bottom - ph / 2 - 4, y));
+      const px = x - pw / 2, py = y - ph / 2;
       ctx.beginPath();
-      ctx.roundRect(px, py, pw, ph, 10);
+      ctx.roundRect(px, py, pw, ph, 11);
       ctx.fillStyle = '#fff';
       ctx.shadowColor = 'rgba(0,0,0,0.12)';
       ctx.shadowBlur = 6;
       ctx.fill();
       ctx.shadowBlur = 0;
-      // Colored border
       ctx.strokeStyle = colors[i];
       ctx.lineWidth = 1.5;
       ctx.stroke();
-      // Colored text
       ctx.fillStyle = colors[i];
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -1528,7 +1501,7 @@ new Chart(document.getElementById('campChart'), {
   data: {
     labels: ['Aprobadas', 'Rechazadas'],
     datasets: [{
-      data: [384, 313],
+      data: [393, 313],
       backgroundColor: [GREEN, RED],
       borderWidth: 0,
       hoverOffset: 8,
@@ -1553,7 +1526,7 @@ new Chart(document.getElementById('campChartCant'), {
   data: {
     labels: ['Aprobadas', 'Rechazadas'],
     datasets: [{
-      data: [84, 69],
+      data: [81, 65],
       backgroundColor: [GREEN, RED],
       borderWidth: 0,
       hoverOffset: 8,
@@ -1565,7 +1538,7 @@ new Chart(document.getElementById('campChartCant'), {
     cutout: '68%',
     plugins: {
       legend: { position: 'right', labels: { boxWidth: 12, padding: 14, font: { size: 12 } } },
-      tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} campañas` } }
+      tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} campañas (Q1 Ene–Mar)` } }
     },
     layout: { padding: 28 }
   }
